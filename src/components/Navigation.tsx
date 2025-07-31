@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Home, 
@@ -19,12 +18,12 @@ import {
 import { useTheme } from '../contexts/ThemeContext';
 
 const navItems = [
-  { path: '/', icon: Home, label: 'Home', labelHi: 'होम' },
-  { path: '/about', icon: User, label: 'About', labelHi: 'परिचय' },
-  { path: '/skills', icon: Code, label: 'Skills', labelHi: 'कौशल' },
-  { path: '/projects', icon: FolderOpen, label: 'Projects', labelHi: 'प्रोजेक्ट' },
-  { path: '/resume', icon: FileText, label: 'Resume', labelHi: 'रिज्यूमे' },
-  { path: '/contact', icon: Mail, label: 'Contact', labelHi: 'संपर्क' },
+  { path: '#home', icon: Home, label: 'Home', labelHi: 'होम' },
+  { path: '#about', icon: User, label: 'About', labelHi: 'परिचय' },
+  { path: '#skills', icon: Code, label: 'Skills', labelHi: 'कौशल' },
+  { path: '#projects', icon: FolderOpen, label: 'Projects', labelHi: 'प्रोजेक्ट' },
+  { path: '#resume', icon: FileText, label: 'Resume', labelHi: 'रिज्यूमे' },
+  { path: '#contact', icon: Mail, label: 'Contact', labelHi: 'संपर्क' },
 ];
 
 const themes = [
@@ -38,12 +37,39 @@ const themes = [
 export const Navigation: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
-  const location = useLocation();
+  const [activeSection, setActiveSection] = useState('home');
   const { theme, setTheme, language, setLanguage } = useTheme();
 
   useEffect(() => {
+    const handleScroll = () => {
+      const sections = ['home', 'about', 'skills', 'projects', 'resume', 'contact'];
+      const scrollPosition = window.scrollY + 100;
+
+      for (const section of sections) {
+        const element = document.getElementById(section);
+        if (element) {
+          const offsetTop = element.offsetTop;
+          const offsetHeight = element.offsetHeight;
+          
+          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+            setActiveSection(section);
+            break;
+          }
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
     setIsOpen(false);
-  }, [location.pathname]);
+  };
 
   return (
     <>
@@ -58,7 +84,8 @@ export const Navigation: React.FC = () => {
           <div className="glass-strong rounded-2xl p-4 flex items-center justify-between">
             <motion.div
               whileHover={{ scale: 1.05 }}
-              className="flex items-center space-x-2"
+              className="flex items-center space-x-2 cursor-pointer"
+              onClick={() => scrollToSection('home')}
             >
               <div className="w-8 h-8 rounded-full bg-gradient-to-r from-pink-400 to-violet-400 flex items-center justify-center">
                 <span className="text-white font-bold text-sm">JS</span>
@@ -70,22 +97,22 @@ export const Navigation: React.FC = () => {
 
             <div className="hidden md:flex items-center space-x-2">
               {navItems.map((item) => (
-                <Link key={item.path} to={item.path}>
-                  <motion.div
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.95 }}
-                    className={`flex items-center space-x-2 px-4 py-2 rounded-xl transition-all duration-300 ${
-                      location.pathname === item.path
-                        ? 'bg-gradient-to-r from-pink-500 to-violet-500 text-white'
-                        : 'hover:bg-white/10 text-gray-300 hover:text-white'
-                    }`}
-                  >
-                    <item.icon size={18} />
-                    <span className="text-sm font-medium">
-                      {language === 'en' ? item.label : item.labelHi}
-                    </span>
-                  </motion.div>
-                </Link>
+                <motion.div
+                  key={item.path}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => scrollToSection(item.path.replace('#', ''))}
+                  className={`flex items-center space-x-2 px-4 py-2 rounded-xl transition-all duration-300 cursor-pointer ${
+                    activeSection === item.path.replace('#', '')
+                      ? 'bg-gradient-to-r from-pink-500 to-violet-500 text-white'
+                      : 'hover:bg-white/10 text-gray-300 hover:text-white'
+                  }`}
+                >
+                  <item.icon size={18} />
+                  <span className="text-sm font-medium">
+                    {language === 'en' ? item.label : item.labelHi}
+                  </span>
+                </motion.div>
               ))}
             </div>
 
@@ -211,22 +238,22 @@ export const Navigation: React.FC = () => {
 
               <div className="space-y-4">
                 {navItems.map((item) => (
-                  <Link key={item.path} to={item.path}>
-                    <motion.div
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className={`flex items-center space-x-3 p-4 rounded-xl transition-all duration-300 ${
-                        location.pathname === item.path
-                          ? 'bg-gradient-to-r from-pink-500 to-violet-500 text-white'
-                          : 'hover:bg-white/10 text-gray-300 hover:text-white'
-                      }`}
-                    >
-                      <item.icon size={20} />
-                      <span className="font-medium">
-                        {language === 'en' ? item.label : item.labelHi}
-                      </span>
-                    </motion.div>
-                  </Link>
+                  <motion.div
+                    key={item.path}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => scrollToSection(item.path.replace('#', ''))}
+                    className={`flex items-center space-x-3 p-4 rounded-xl transition-all duration-300 cursor-pointer ${
+                      activeSection === item.path.replace('#', '')
+                        ? 'bg-gradient-to-r from-pink-500 to-violet-500 text-white'
+                        : 'hover:bg-white/10 text-gray-300 hover:text-white'
+                    }`}
+                  >
+                    <item.icon size={20} />
+                    <span className="font-medium">
+                      {language === 'en' ? item.label : item.labelHi}
+                    </span>
+                  </motion.div>
                 ))}
               </div>
 

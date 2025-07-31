@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { Navigation } from './components/Navigation';
 import { ParticleBackground } from './components/ParticleBackground';
@@ -25,32 +24,40 @@ function App() {
 
   return (
     <ThemeProvider>
-      <Router>
-        {isLoading ? (
-          <LoadingScreen onComplete={handleLoadingComplete} />
-        ) : (
-          <div className="min-h-screen bg-[#262221] text-white relative overflow-hidden">
-            <ScrollProgress />
-            <ParticleBackground />
-            <FloatingElements />
-            <CursorEffect />
-            <EnhancedCursor />
-            <Navigation />
-            <SoundToggle />
-            
-            <main className="relative z-10">
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/skills" element={<Skills />} />
-                <Route path="/projects" element={<Projects />} />
-                <Route path="/resume" element={<Resume />} />
-                <Route path="/contact" element={<Contact />} />
-              </Routes>
-            </main>
-          </div>
-        )}
-      </Router>
+      {isLoading ? (
+        <LoadingScreen onComplete={handleLoadingComplete} />
+      ) : (
+        <div className="min-h-screen bg-[#262221] text-white relative overflow-hidden">
+          <ScrollProgress />
+          <ParticleBackground />
+          <FloatingElements />
+          <CursorEffect />
+          <EnhancedCursor />
+          <Navigation />
+          <SoundToggle />
+          
+          <main className="relative z-10">
+            <section id="home">
+              <Home />
+            </section>
+            <section id="about">
+              <About />
+            </section>
+            <section id="skills">
+              <Skills />
+            </section>
+            <section id="projects">
+              <Projects />
+            </section>
+            <section id="resume">
+              <Resume />
+            </section>
+            <section id="contact">
+              <Contact />
+            </section>
+          </main>
+        </div>
+      )}
     </ThemeProvider>
   );
 }

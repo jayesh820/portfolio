@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
 import { ArrowRight, Download, Github, Linkedin, Mail, Phone, User, Code, MessageCircle, Zap, Star, Rocket } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import { PageTransition } from '../components/PageTransition';
@@ -49,6 +48,13 @@ export const Home: React.FC = () => {
       y: 0,
       opacity: 1,
       transition: { duration: 0.6 }
+    }
+  };
+
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
@@ -257,58 +263,55 @@ export const Home: React.FC = () => {
 
             {/* Enhanced Action Buttons */}
             <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Link to="/projects">
-                <motion.button
-                  whileHover={{ 
-                    scale: 1.05, 
-                    boxShadow: "0 20px 40px rgba(236, 72, 153, 0.4)",
-                    y: -2
-                  }}
-                  whileTap={{ scale: 0.95 }}
-                  className="w-full group relative overflow-hidden bg-gradient-to-r from-pink-500 to-purple-500 px-8 py-4 rounded-xl flex items-center justify-center space-x-2 text-white font-semibold"
-                >
-                  <div className="absolute inset-0 bg-gradient-to-r from-pink-400 to-purple-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  <span className="relative z-10">{language === 'en' ? 'View Projects' : 'प्रोजेक्ट देखें'}</span>
-                  <ArrowRight size={20} className="relative z-10 group-hover:translate-x-1 transition-transform" />
-                </motion.button>
-              </Link>
+              <motion.button
+                onClick={() => scrollToSection('projects')}
+                whileHover={{ 
+                  scale: 1.05, 
+                  boxShadow: "0 20px 40px rgba(236, 72, 153, 0.4)",
+                  y: -2
+                }}
+                whileTap={{ scale: 0.95 }}
+                className="w-full group relative overflow-hidden bg-gradient-to-r from-pink-500 to-purple-500 px-8 py-4 rounded-xl flex items-center justify-center space-x-2 text-white font-semibold"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-pink-400 to-purple-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <span className="relative z-10">{language === 'en' ? 'View Projects' : 'प्रोजेक्ट देखें'}</span>
+                <ArrowRight size={20} className="relative z-10 group-hover:translate-x-1 transition-transform" />
+              </motion.button>
 
-              <Link to="/about">
-                <motion.button
-                  whileHover={{ scale: 1.05, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="w-full glass px-8 py-4 rounded-xl flex items-center justify-center space-x-2 text-white font-semibold hover:glass-strong transition-all group"
-                >
-                  <User size={20} className="group-hover:rotate-12 transition-transform" />
-                  <span>{language === 'en' ? 'About Me' : 'मेरे बारे में'}</span>
-                </motion.button>
-              </Link>
+              <motion.button
+                onClick={() => scrollToSection('about')}
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                className="w-full glass px-8 py-4 rounded-xl flex items-center justify-center space-x-2 text-white font-semibold hover:glass-strong transition-all group"
+              >
+                <User size={20} className="group-hover:rotate-12 transition-transform" />
+                <span>{language === 'en' ? 'About Me' : 'मेरे बारे में'}</span>
+              </motion.button>
 
-              <Link to="/skills">
-                <motion.button
-                  whileHover={{ scale: 1.05, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="w-full glass px-8 py-4 rounded-xl flex items-center justify-center space-x-2 text-white font-semibold hover:glass-strong transition-all group"
-                >
-                  <Code size={20} className="group-hover:rotate-12 transition-transform" />
-                  <span>{language === 'en' ? 'My Skills' : 'मेरे कौशल'}</span>
-                </motion.button>
-              </Link>
+              <motion.button
+                onClick={() => scrollToSection('skills')}
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                className="w-full glass px-8 py-4 rounded-xl flex items-center justify-center space-x-2 text-white font-semibold hover:glass-strong transition-all group"
+              >
+                <Code size={20} className="group-hover:rotate-12 transition-transform" />
+                <span>{language === 'en' ? 'My Skills' : 'मेरे कौशल'}</span>
+              </motion.button>
 
-              <Link to="/contact">
-                <motion.button
-                  whileHover={{ scale: 1.05, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="w-full glass px-8 py-4 rounded-xl flex items-center justify-center space-x-2 text-white font-semibold hover:glass-strong transition-all group"
-                >
-                  <MessageCircle size={20} className="group-hover:rotate-12 transition-transform" />
-                  <span>{language === 'en' ? 'Contact Me' : 'संपर्क करें'}</span>
-                </motion.button>
-              </Link>
+              <motion.button
+                onClick={() => scrollToSection('contact')}
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                className="w-full glass px-8 py-4 rounded-xl flex items-center justify-center space-x-2 text-white font-semibold hover:glass-strong transition-all group"
+              >
+                <MessageCircle size={20} className="group-hover:rotate-12 transition-transform" />
+                <span>{language === 'en' ? 'Contact Me' : 'संपर्क करें'}</span>
+              </motion.button>
             </motion.div>
 
             <motion.div variants={itemVariants} className="flex justify-center">
               <motion.button
+                onClick={() => scrollToSection('resume')}
                 whileHover={{ 
                   scale: 1.05,
                   boxShadow: "0 10px 30px rgba(255,255,255,0.2)",
@@ -384,7 +387,7 @@ export const Home: React.FC = () => {
                   }}
                 >
                   <img 
-                    src="/public/Screenshot 2025-07-07 173350.png" 
+                    src="/jayesh-profile.jpg" 
                     alt="Jayesh Saini"
                     className="w-full h-full object-cover rounded-full group-hover:scale-110 transition-transform duration-500"
                   />
